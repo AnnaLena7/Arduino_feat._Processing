@@ -16,12 +16,21 @@ void setup() {
   size(1280, 720);
   background(255);
   
+  println(Serial.list());
   myPort = new Serial(this, Serial.list()[0], 115200);
+  //myPort = new Serial(this, "COM3", 115200);
   myPort.bufferUntil('\n');
 }
 
 void draw() {
-  if(portStream != null) {
+  background(127);
+  //verarbeiten...
+  print("Gyro X: " + gyroxValue + " Gyro Y: " + gyroyValue + " Gyro Z: " + gyrozValue + " Flex: " + flexValue + "\n");
+}
+
+void serialEvent(Serial myPort) {
+  while(myPort.available() > 0 ) {
+    portStream = myPort.readString();
     //portstream trennen, wenn leerzeichen
     for (int i = 0; i < portStream.length(); i++) {
       //wenn noch aktuelles value abgelesen wird, an zwerg anhängen
@@ -37,9 +46,6 @@ void draw() {
           gyrozValue = float(zwerg);
         else if (zaehler == 4)
           flexValue = parseInt(zwerg);
-        /*else
-          //wenn alle variablen abgefrühstückt, raus aus der schleife
-          break;*/
         //den zaehler erhöhen
         zaehler++;
         //zwerg clearen
@@ -48,13 +54,5 @@ void draw() {
       }
     }
     zwerg = "";
-    //verarbeiten...
-    print("Gyro X: " + gyroxValue + " Gyro Y: " + gyroyValue + " Gyro Z: " + gyrozValue + " Flex: " + flexValue + "\n");
   }
-  else
-    print ("not found :(");
-}
-
-void serialEvent(Serial myPort) {
-  portStream = myPort.readString();
 }

@@ -18,7 +18,6 @@ Adafruit_LSM9DS1 lsm = Adafruit_LSM9DS1();
    Adafruit_LSM9DS1 lsm = Adafruit_LSM9DS1(LSM9DS1_XGCS, LSM9DS1_MCS);
 */
 
-
 //flex
 int flexPin = A0;
 
@@ -64,13 +63,13 @@ void loop() {
   //delay(20);
   
   //Verarbeiten...
-  //sensorData = normalizeData(g.gyro.x, g.gyro.y, g.gyro.z, flexValue);
-  //Serial.println(sensorData);
-  Serial.print(g.gyro.x, 4);
-  Serial.print(g.gyro.y, 4);
-  Serial.print(g.gyro.z, 4);
-  Serial.print(flexValue);
-  Serial.println("");
+  sensorData = normalizeData(g.gyro.x, g.gyro.y, g.gyro.z, flexValue);
+  Serial.println(sensorData);
+  //Serial.print(g.gyro.x, 4);
+  //Serial.print(g.gyro.y, 4);
+  //Serial.print(g.gyro.z, 4);
+  //Serial.print(flexValue);
+  //Serial.println("");
   delay(1000);
 }
 
