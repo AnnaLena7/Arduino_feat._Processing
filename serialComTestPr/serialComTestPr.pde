@@ -1,18 +1,14 @@
 import processing.serial.*;
 
-float x = 0;  // x-Gyro
-float y = 0;  // y-Gyro
-float z = 0;  // z-Gyro
-float flex = 0;
-//hilfsvariablen
-int zaehler = 1; //bis vier bewertbar ;), weil vier values vorhanden
-String zwerg = "";
+float r = 0;  // rot
+float g = 0;  // gruen
+float b = 0;  // blau
 
 Serial p;    // objekt serieller port
 
 void setup()
 {
-  size(1280, 720);
+  size(200, 200);
   println(Serial.list());
   // serieller port ist erster com-port
   // ggfs. aendern oder auswahlmenue ...
@@ -23,8 +19,8 @@ void setup()
 
 void draw()
 {
-  //ausgabe printen
-  println(x + ", " + y + ", " + z + ", Flex: " + flex, 100, 100);
+  // hintergrund mit r, g und b faerben
+  background(r, g, b);
 }
 
 // event von port p abfangen und behandeln
@@ -36,16 +32,15 @@ void serialEvent(Serial p)
   if(s != null) {
     // string zur kontrolle ausgeben
     println(s);
-    // whitespaces entfernen
+  // whitespaces entfernen
     s = trim(s);
-    // string in r, g und b splitten
+  // string in r, g und b splitten
     float c[] = float(split(s, ","));
-    // x, y, z und flex setzen
-    if(c.length >= 4) {
-      x = c[0];
-      y = c[1];
-      z = c[2];
-      flex = c[3];
+  // r, g und b setzen
+    if(c.length >= 3) {
+      r = c[0];
+      g = c[1];
+      b = c[2];
     }
   }
 }
