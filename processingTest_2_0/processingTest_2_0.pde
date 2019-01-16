@@ -1,58 +1,46 @@
 import processing.serial.*;
 
-Serial myPort;
-String portStream; //erhält die daten, die über serielle schnittstelle laufen
-    //erst gyro, dann flex
+float r = 0;  // rot
+float g = 0;  // gruen
+float b = 0;  // blau
 
-float gyroxValue;
-float gyroyValue;
-float gyrozValue;
-int flexValue;
-//hilfsvariablen
-int zaehler = 1; //bis vier bewertbar ;), weil vier values vorhanden
-String zwerg = "";
+Serial p;    // objekt serieller port
 
-void setup() {
-  size(1280, 720);
-  background(255);
-  
+void setup()
+{
+  size(200, 200);
   println(Serial.list());
-  myPort = new Serial(this, Serial.list()[0], 115200);
-  //myPort = new Serial(this, "COM3", 115200);
-  myPort.bufferUntil('\n');
+  // serieller port ist erster com-port
+  // ggfs. aendern oder auswahlmenue ...
+  p = new Serial(this, Serial.list()[0], 9600);
+  // seriellen eingabepuffer leeren
+  p.bufferUntil('\n');
 }
 
-void draw() {
-  background(127);
-  //verarbeiten...
-  print("Gyro X: " + gyroxValue + " Gyro Y: " + gyroyValue + " Gyro Z: " + gyrozValue + " Flex: " + flexValue + "\n");
+void draw()
+{
+  // hintergrund mit r, g und b faerben
+  background(r, g, b);
 }
 
-void serialEvent(Serial myPort) {
-  while(myPort.available() > 0 ) {
-    portStream = myPort.readString();
-    //portstream trennen, wenn leerzeichen
-    for (int i = 0; i < portStream.length(); i++) {
-      //wenn noch aktuelles value abgelesen wird, an zwerg anhängen
-      if (portStream.charAt(i) != ' ') {
-        zwerg += portStream.charAt(i);
-      } else { //sonst
-        //variablen werte geben
-        if (zaehler == 1)
-          gyroxValue = float(zwerg);
-        else if (zaehler == 2)
-          gyroyValue = float(zwerg);
-        else if (zaehler == 3)
-          gyrozValue = float(zwerg);
-        else if (zaehler == 4)
-          flexValue = parseInt(zwerg);
-        //den zaehler erhöhen
-        zaehler++;
-        //zwerg clearen
-        zwerg = "";
-        //und weiter zum nächsten value
-      }
+// event von port p abfangen und behandeln
+// funktion muss serialEvent heissen!!!
+void serialEvent(Serial p)
+{
+  // string vom port lesen
+  String s = p.readStringUntil('\n');
+  if(s != null) {
+    // string zur kontrolle ausgeben
+    println(s);
+  // whitespaces entfernen
+    s = trim(s);
+  // string in r, g und b splitten
+    float c[] = float(split(s, ","));
+  // r, g und b setzen
+    if(c.length >= 3) {
+      r = c[0];
+      g = c[1];
+      b = c[2];
     }
-    zwerg = "";
   }
 }
