@@ -23,8 +23,9 @@ void setup()
 
 void draw()
 {
+  background(127);
   //ausgabe printen
-  println(x + ", " + y + ", " + z + ", Flex: " + flex, 100, 100);
+  text("x: " + x + ", y: " + y + ", z: " + z + ", Flex: " + flex, 100, 100);
 }
 
 // event von port p abfangen und behandeln
