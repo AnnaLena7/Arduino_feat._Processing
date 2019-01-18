@@ -22,9 +22,14 @@ Adafruit_LSM9DS1 lsm = Adafruit_LSM9DS1();
 int flexPin = A0;
 
 //stuff
-//int ledPin = 3;
+int ledRed = 9;
+int ledGreen = 10;
+int ledBlue = 11;
+String hit;
 
 void setupSensor() {
+  //Set the accelerometer range
+  lsm.setupAccel(lsm.LSM9DS1_ACCELRANGE_2G);
   //Setup the gyroscope
   lsm.setupGyro(lsm.LSM9DS1_GYROSCALE_245DPS);
   //lsm.setupGyro(lsm.LSM9DS1_GYROSCALE_500DPS);
@@ -40,7 +45,9 @@ void setup() {
   Serial.println("LSM9DS1 9DOF gefunden");
   setupSensor();
 
-  //pinMode(ledPin,OUTPUT);
+  pinMode(ledRed,OUTPUT);
+  pinMode(ledGreen,OUTPUT);
+  pinMode(ledBlue,OUTPUT);
 }
 
 void loop() {
@@ -61,7 +68,25 @@ void loop() {
   Serial.print(g.gyro.y, 4);
   Serial.print(",");
   Serial.print(g.gyro.z, 4);
+  /*Serial.print(a.acceleration.x, 4);
+  Serial.print(",");
+  Serial.print(a.acceleration.y, 4);
+  Serial.print(",");
+  Serial.print(a.acceleration.z, 4);*/
   Serial.print(",");
   Serial.println(flexValue);
+
+  if(Serial.available()) {
+    hit = Serial.read();
+    if(hit.equals("geschossen")) {
+      analogWrite(ledBlue, 255); //blue
+    }
+    if(hit.equals("hit")) {
+      analogWrite(ledGreen, 255); //green
+    } else if(hit.equals("shot")) {
+      analogWrite(ledRed, 255); //red
+    }
+  }
+  
   delay(500);
 }
