@@ -1,0 +1,19 @@
+- [Stern(schnuppen)]Partikelsystem
+- Sound
+- Handschuh-PRototyp
+
+Anna-Lena:
+- Menü
+
+Christian:
+- Highscore
+
+Melanie:
+- Rakete zeichnen
+- Asteroiden zeichnen
+- Gegnerspawn
+
+Monique:
+- Gegner zeichnen
+- Gegner animieren
+- abschießen -> LED

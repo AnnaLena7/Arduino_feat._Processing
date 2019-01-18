@@ -1,0 +1,15 @@
+Arduino-Teil:
+- Sensoren anbinden -roger
+- Serial-Teil -roger
+- LEDs
+- Handschuh-Prototyp
+
+Processing-Teil:
+- Zeichnen -roger
+- Serial-Teil -roger
+- Partikelsystem
+- Rakete/Raumschiff steuerbar -roger
+- Gegner/Asteroiden kommen random auf einen zu
+- abschießen -sohalb
+ -> Sound
+- Gegner-Marsmännchen kommt aus dem Ufo raus und winkt/ruft stirb!
