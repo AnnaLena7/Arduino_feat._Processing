@@ -63,16 +63,16 @@ void loop() {
   int flexValue = analogRead(flexPin);
   
   //Verarbeiten...
-  Serial.print(g.gyro.x, 4);
+  /*Serial.print(g.gyro.x, 4);
   Serial.print(",");
   Serial.print(g.gyro.y, 4);
   Serial.print(",");
-  Serial.print(g.gyro.z, 4);
-  /*Serial.print(a.acceleration.x, 4);
+  Serial.print(g.gyro.z, 4);*/
+  Serial.print(a.acceleration.x, 4);
   Serial.print(",");
   Serial.print(a.acceleration.y, 4);
   Serial.print(",");
-  Serial.print(a.acceleration.z, 4);*/
+  Serial.print(a.acceleration.z, 4);
   Serial.print(",");
   Serial.println(flexValue);
 

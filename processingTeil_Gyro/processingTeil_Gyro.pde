@@ -7,7 +7,7 @@ float flex = 0;
 //hilfsvariablen
 int zaehler = 1; //bis vier bewertbar ;), weil vier values vorhanden
 String zwerg = "";
-float positionY = height - height/4;
+float positionY;
 boolean hit = false;
 
 Serial p;    // objekt serieller port
@@ -16,9 +16,9 @@ PImage ship;
 Starship starship;
 Schuss shoot;
 
-void setup()
-{
+void setup() {
   size(1280, 720);
+  positionY = height - height/4;
   
   println(Serial.list());
   // serieller port ist erster com-port
@@ -31,8 +31,7 @@ void setup()
   starship = new Starship(ship, width/2, positionY);
 }
 
-void draw()
-{
+void draw() {
   background(127);
   starship.draw(x, positionY);
   //ausgabe printen
@@ -56,8 +55,7 @@ void mouseClicked() {
 
 // event von port p abfangen und behandeln
 // funktion muss serialEvent heissen!!!
-void serialEvent(Serial p)
-{
+void serialEvent(Serial p) {
   // string vom port lesen
   String s = p.readStringUntil('\n');
   if(s != null) {
