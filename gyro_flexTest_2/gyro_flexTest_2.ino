@@ -22,10 +22,14 @@ Adafruit_LSM9DS1 lsm = Adafruit_LSM9DS1();
 int flexPin = A0;
 
 //stuff
-//int ledPin = 3;
-String sensorData; //erst gyro(.x/y/z), dann flex, jew. durch leerzeichen getrennt
+int ledRed = 9;
+int ledGreen = 10;
+int ledBlue = 11;
+String hit;
 
 void setupSensor() {
+  //Set the accelerometer range
+  lsm.setupAccel(lsm.LSM9DS1_ACCELRANGE_2G);
   //Setup the gyroscope
   lsm.setupGyro(lsm.LSM9DS1_GYROSCALE_245DPS);
   //lsm.setupGyro(lsm.LSM9DS1_GYROSCALE_500DPS);
@@ -33,7 +37,7 @@ void setupSensor() {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   if(!lsm.begin()) {
     Serial.println("Oops, da ist was schief gelaufen, überprüfe deine Kabel");
     while(1); //endlosloop
@@ -41,7 +45,9 @@ void setup() {
   Serial.println("LSM9DS1 9DOF gefunden");
   setupSensor();
 
-  //pinMode(ledPin,OUTPUT);
+  pinMode(ledRed,OUTPUT);
+  pinMode(ledGreen,OUTPUT);
+  pinMode(ledBlue,OUTPUT);
 }
 
 void loop() {
@@ -49,32 +55,38 @@ void loop() {
   lsm.read();
   sensors_event_t a, m, g, temp; //Variable für gyro g
   lsm.getEvent(&a, &m, &g, &temp);
-
   /*Serial.print("Gyro X: "); Serial.print(g.gyro.x);   Serial.print(" dps");
   Serial.print("\tY: "); Serial.print(g.gyro.y);      Serial.print(" dps");
   Serial.print("\tZ: "); Serial.print(g.gyro.z);      Serial.println(" dps");
-  Serial.println("");
-  delay(20);
   */
   //FlexSensor
   int flexValue = analogRead(flexPin);
-  //Serial.print(flexValue);
-  //Serial.println("");
-  //delay(20);
   
   //Verarbeiten...
-  sensorData = normalizeData(g.gyro.x, g.gyro.y, g.gyro.z, flexValue);
-  Serial.println(sensorData);
-  //Serial.print(g.gyro.x, 4);
-  //Serial.print(g.gyro.y, 4);
-  //Serial.print(g.gyro.z, 4);
-  //Serial.print(flexValue);
-  //Serial.println("");
-  delay(1000);
-}
+  /*Serial.print(g.gyro.x, 4);
+  Serial.print(",");
+  Serial.print(g.gyro.y, 4);
+  Serial.print(",");
+  Serial.print(g.gyro.z, 4);*/
+  Serial.print(a.acceleration.x, 4);
+  Serial.print(",");
+  Serial.print(a.acceleration.y, 4);
+  Serial.print(",");
+  Serial.print(a.acceleration.z, 4);
+  Serial.print(",");
+  Serial.println(flexValue);
 
-String normalizeData(float x, float y, float z, int flex) {
-  /*x° y° z° flex*/
-  String erg = String(x) + String(" ") + String(y) + String(" ") + String(z) + String(" ") + String(flex);
-  return erg;
+  if(Serial.available()) {
+    hit = Serial.read();
+    if(hit.equals("geschossen")) {
+      analogWrite(ledBlue, 255); //blue
+    }
+    if(hit.equals("hit")) {
+      analogWrite(ledGreen, 255); //green
+    } else if(hit.equals("shot")) {
+      analogWrite(ledRed, 255); //red
+    }
+  }
+  
+  delay(500);
 }

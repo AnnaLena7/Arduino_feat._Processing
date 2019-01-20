@@ -21,6 +21,12 @@ void setup() {
 }
 
 void draw() {
+  //verarbeiten...
+  print("Gyro X: " + gyroxValue + " Gyro Y: " + gyroyValue + " Gyro Z: " + gyrozValue + " Flex: " + flexValue + "\n");
+}
+
+void serialEvent(Serial myPort) {
+  portStream = myPort.readString();
   if(portStream != null) {
     //portstream trennen, wenn leerzeichen
     for (int i = 0; i < portStream.length(); i++) {
@@ -47,13 +53,8 @@ void draw() {
         //und weiter zum nächsten value
       }
     }
-    //verarbeiten...
-    print("Gyro X: " + gyroxValue + " Gyro Y: " + gyroyValue + "Gyro Z: " + gyrozValue + " Flex: " + flexValue + "\n");
+    zwerg = "";
   }
   else
     print ("not found :(");
-}
-
-void serialEvent(Serial myPort) {
-  portStream = myPort.readString();
 }
