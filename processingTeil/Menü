@@ -1,0 +1,120 @@
+PImage galaxy;
+PFont schrift;
+int startX, startY;      
+int highscoreX, highscoreY;
+int endeX, endeY;
+int rectSizeX = 250;
+int rectSizeY = 50;
+color rectColor, baseColor;
+color rectHighlight;
+color currentColor;
+boolean startOver = false;
+boolean highscoreOver = false;
+boolean endeOver = false;
+
+void setup() {
+  size(1280, 720);
+  galaxy = loadImage("galaxy.jpg");
+  schrift = createFont("PTSans-Bold-48.vwl", 25);
+  
+  rectColor = color(#F9ADFF);
+  rectHighlight = color(#F13BFF);
+  startX = width/2-rectSizeX/2;
+  startY = height/2-rectSizeY/2-100;
+  highscoreX = width/2-rectSizeX/2;
+  highscoreY = height/2-rectSizeY/2;
+  endeX = width/2-rectSizeX/2;
+  endeY = height/2-rectSizeY/2+100;
+}
+
+void draw() {
+  update();
+  background(galaxy);
+  
+  //Startbutton verändern
+  if (startOver) {
+    fill(rectHighlight);
+  } else {
+    fill(rectColor);
+  }
+  
+  //stroke(255);
+  rect(startX, startY, rectSizeX, rectSizeY, 7);
+  fill(0);
+  textFont(schrift);
+  text("Start", startX+rectSizeX/2-25, startY+35);
+  
+  //Highscorebutton verändern
+  if (highscoreOver) {
+    fill(rectHighlight);
+  } else{
+    fill(rectColor);
+  }
+  
+  rect(highscoreX, highscoreY, rectSizeX, rectSizeY, 7);
+  fill(0);
+  textFont(schrift);
+  text("Highscore", highscoreX+rectSizeX/2-55, highscoreY+35);
+  
+  //Énde-Button verändern
+  if (endeOver) {
+    fill(rectHighlight);
+  } else{
+    fill(rectColor);
+  }
+  
+  rect(endeX, endeY, rectSizeX, rectSizeY, 7);
+  fill(0);
+  textFont(schrift);
+  text("Beenden", endeX+rectSizeX/2-45, endeY+35);
+  
+  
+}  
+  
+  
+void update() {
+  if (overRect(startX, startY, rectSizeX, rectSizeY) ) {
+    startOver = true;
+  }
+  else {
+    startOver = false;
+  }
+  
+  
+  if (overRect(highscoreX, highscoreY, rectSizeX, rectSizeY)){
+    highscoreOver = true;
+  }
+  else {
+    highscoreOver = false;
+  }
+  
+  
+  if (overRect(endeX, endeY, rectSizeX, rectSizeY)){
+    endeOver = true;
+  }
+  else {
+    endeOver = false;
+  }
+  
+}
+
+void mousePressed() {
+  if (startOver) {
+    //Hier soll das Spiel starten!
+  }
+  if (highscoreOver){
+    //Hier soll der Highscore angezeigt werden!
+  }
+  if (endeOver){
+    //Hier soll das Spiel beendet werden!
+  }
+}
+
+boolean overRect(int x, int y, int width, int height)  {
+  if (mouseX >= x && mouseX <= x+width && 
+      mouseY >= y && mouseY <= y+height) {
+    return true;
+  } else {
+    return false;
+  }
+}
